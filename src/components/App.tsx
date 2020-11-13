@@ -1,77 +1,56 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
-import { BooksList } from './BooksList';
-import { CreateBookModal } from './CreateBookModal';
+import { BooksListContainer } from './BooksListContainer';
 import { EditBookModal } from './EditBookModal';
-import { Book } from '../constants';
+import { Book, EMPTY_BOOK } from '../constants';
 
-const initialBooks: Book[] = [
-  {
-    author: 'Mateusz Suchoń',
-    bookId: 'sdfasdfasdfasfasf',
-    price: 17.76,
-    title: 'Lorem ipsum dolor',
-    selected: false
-  },
-  {
-    author: 'Mateusz Suchoń',
-    bookId: 'sdfasdfasdfasffdsgsdgsdasf',
-    price: 17.76,
-    title: 'Lorem ipsum dolor',
-    selected: false
-  }
-];
+const Header = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const AppContainer = styled.div`
+  max-width: 1248px;
+  padding: 0 16px 16px;
+  margin: 0 auto;
+`;
 
 export const App = () => {
-  const [books, setBooks] = useState(initialBooks);
-  const [editedBookId, setEditedBookId] = useState<string | undefined>();
-  const editedBook = books.find(({ bookId }) => bookId === editedBookId);
+  const [editedBook, setEditedBook] = useState<Book | undefined>();
 
-  const handleBookEditClick = (bookId: string) => {
-    setEditedBookId(bookId);
+  const handleBookEditClick = (book: Book) => {
+    setEditedBook(book);
   };
 
   const handleCreateBookClick = () => {
-    setEditedBookId('');
-  };
-
-  const handleBookSelect = (bookId: string) => {
-    const bookIndex = books.findIndex((book) => book.bookId === bookId);
-
-    if (bookIndex > -1) {
-      const newBooks = [...books];
-      newBooks[bookIndex].selected = !newBooks[bookIndex].selected;
-      setBooks(newBooks);
-    }
+    setEditedBook(EMPTY_BOOK);
   };
 
   const handleCloseModal = () => {
-    setEditedBookId(undefined);
+    setEditedBook(undefined);
   };
 
   return (
-    <div>
-      <h1>Books</h1>
+    <AppContainer>
+      <Header>
+        <h1>Books</h1>
 
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleCreateBookClick}
-      >
-        Create new
-      </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleCreateBookClick}
+        >
+          Create new
+        </Button>
+      </Header>
 
-      {editedBookId === '' && <CreateBookModal onClose={handleCloseModal} />}
-
-      {editedBookId && editedBook && (
+      {editedBook && (
         <EditBookModal book={editedBook} onClose={handleCloseModal} />
       )}
 
-      <BooksList
-        books={books}
-        onBookEditClick={handleBookEditClick}
-        onBookSelect={handleBookSelect}
-      />
-    </div>
+      <BooksListContainer onBookEditClick={handleBookEditClick} />
+    </AppContainer>
   );
 };

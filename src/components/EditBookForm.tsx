@@ -1,11 +1,19 @@
-import React, { ChangeEvent, EventHandler, MouseEvent, useState } from 'react';
+import React, {
+  ChangeEvent,
+  EventHandler,
+  FormEvent,
+  MouseEvent,
+  useState
+} from 'react';
+import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import { Book } from '../constants';
+
+const Field = styled.div`
+  margin-bottom: 16px;
+`;
 
 interface EditBookModalProps {
   book: Book;
@@ -20,16 +28,20 @@ interface Errors {
 }
 export const EditBookForm = ({
   book: initialBook,
-  onClose
+  onClose,
+  onSubmit
 }: EditBookModalProps) => {
   const [book, setBook] = useState(initialBook);
+
   const [errors, setErrors] = useState<Errors>({
     author: false,
     price: false,
     title: false
   });
 
-  const handleSubmit = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     const errors = {
       author: !book.author,
       price: !book.price,
@@ -43,8 +55,13 @@ export const EditBookForm = ({
       false
     );
 
-    if (!hasErrors) {
-      console.log('submit!');
+    const hasChanges = !Object.is(
+      JSON.stringify(book),
+      JSON.stringify(initialBook)
+    );
+
+    if (!hasErrors && hasChanges) {
+      onSubmit(book);
     }
   };
 
@@ -60,62 +77,54 @@ export const EditBookForm = ({
   const isSubmitDisabled = !book.author || !book.title || !book.price;
 
   return (
-    <Dialog open onClose={onClose}>
-      {book.bookId && (
-        <DialogTitle>Edit book: "{initialBook.title}"</DialogTitle>
-      )}
-
-      {!book.bookId && <DialogTitle>Create new book</DialogTitle>}
-
-      <DialogContent>
+    <form onSubmit={handleSubmit}>
+      <Field>
         <TextField
           autoFocus
+          error={errors.title}
+          fullWidth
           id="title"
           label="Title"
-          type="text"
-          fullWidth
           onChange={handleChange('title')}
-          value={book.title}
           required
-          error={errors.title}
+          type="text"
+          value={book.title}
         />
+      </Field>
 
+      <Field>
         <TextField
-          autoFocus
+          error={errors.author}
+          fullWidth
           id="author"
           label="Author"
-          type="text"
-          fullWidth
           onChange={handleChange('author')}
-          value={book.author}
           required
-          error={errors.author}
+          type="text"
+          value={book.author}
         />
+      </Field>
 
+      <Field>
         <TextField
-          autoFocus
+          error={errors.price}
+          fullWidth
           id="price"
           label="Price"
-          type="number"
-          fullWidth
           onChange={handleChange('price')}
-          value={book.price}
           required
-          error={errors.price}
+          type="number"
+          value={book.price}
         />
-      </DialogContent>
+      </Field>
 
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>
 
-        <Button
-          onClick={handleSubmit}
-          color="primary"
-          disabled={isSubmitDisabled}
-        >
-          {book.bookId ? 'Save book' : 'Create book'}
+        <Button type="submit" color="primary" disabled={isSubmitDisabled}>
+          {book.bookId ? 'Save book' : 'Create new book'}
         </Button>
       </DialogActions>
-    </Dialog>
+    </form>
   );
 };
