@@ -1,11 +1,11 @@
 export interface Book {
-  authors: string;
-  id: string;
+  author: string;
+  bookId: string;
   price: number;
   title: string;
   selected?: boolean;
 }
 
-export interface EditableBook extends Omit<Book, 'id'> {
-  id?: string;
+export interface EditableBook extends Omit<Book, 'bookId'> {
+  bookId?: string;
 }
