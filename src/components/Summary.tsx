@@ -20,7 +20,7 @@ export const Summary = ({ selectedBooks }: SummaryProps) => {
     <StyledSummary>
       {selectedBooksArray.length > 0 && (
         <div>
-          {selectedBooksArray.length} books were selected for a total of{' '}
+          {selectedBooksArray.length} books were selected for a total of $
           {selectedBooksValue}
         </div>
       )}

@@ -1,10 +1,13 @@
 import React, { Fragment, MouseEvent, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { Book, SelectedBooks, GET_BOOKS_QUERY } from '../constants';
+import { selectAllBooks } from '../helpers/select-books';
+import { toggleBookSelection } from '../helpers/toggle-book-selection';
 import { Summary } from './Summary';
 import { BooksList } from './BooksList';
 import { ErrorMessage } from './ErrorMessage';
 import { Loader } from './Loader';
+import { Empty } from './Empty';
 
 interface BooksListContainerProps {
   onBookEditClick: (book: Book) => void;
@@ -26,12 +29,16 @@ export const BooksListContainer = ({
   }
 
   if (error) {
-    return (
-      <ErrorMessage message="Something went wrong while fetching data. Please refresh page." />
-    );
+    const message =
+      'Something went wrong while fetching data. Please refresh page.';
+    return <ErrorMessage message={message} />;
   }
 
   const { books } = data as GetBooksData;
+
+  if (!books.length) {
+    return <Empty />;
+  }
 
   const slectedBooksArray = Object.entries(selectedBooks);
   const isAllSelected = slectedBooksArray.length === books.length;
@@ -44,32 +51,12 @@ export const BooksListContainer = ({
       return;
     }
 
-    const newSelectedBooks = { ...selectedBooks };
-
-    if (newSelectedBooks[bookId]) {
-      delete newSelectedBooks[bookId];
-    } else {
-      newSelectedBooks[bookId] = book.price;
-    }
-
+    const newSelectedBooks = toggleBookSelection(selectedBooks, book);
     setSelectedBooks(newSelectedBooks);
   };
 
   const handleAllBooksSelect = () => {
-    let newSelectedBooks: SelectedBooks;
-
-    if (isAnySelected) {
-      newSelectedBooks = {};
-    } else {
-      newSelectedBooks = books.reduce(
-        (selected: SelectedBooks, book) => ({
-          ...selected,
-          [book.bookId]: book.price
-        }),
-        {}
-      );
-    }
-
+    const newSelectedBooks = isAnySelected ? {} : selectAllBooks(books);
     setSelectedBooks(newSelectedBooks);
   };
 

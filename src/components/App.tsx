@@ -35,14 +35,14 @@ export const App = () => {
   return (
     <AppContainer>
       <Header>
-        <h1>Books</h1>
+        <h1>Super amazing bookstore</h1>
 
         <Button
           variant="contained"
           color="primary"
           onClick={handleCreateBookClick}
         >
-          Create new
+          Create new book
         </Button>
       </Header>
 

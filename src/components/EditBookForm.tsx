@@ -1,10 +1,4 @@
-import React, {
-  ChangeEvent,
-  EventHandler,
-  FormEvent,
-  MouseEvent,
-  useState
-} from 'react';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -17,7 +11,7 @@ const Field = styled.div`
 
 interface EditBookModalProps {
   book: Book;
-  onClose: EventHandler<MouseEvent<HTMLButtonElement>>;
+  onClose: () => void;
   onSubmit: (book: Book) => void;
 }
 
@@ -26,6 +20,7 @@ interface Errors {
   author: boolean;
   price: boolean;
 }
+
 export const EditBookForm = ({
   book: initialBook,
   onClose,
@@ -62,6 +57,8 @@ export const EditBookForm = ({
 
     if (!hasErrors && hasChanges) {
       onSubmit(book);
+    } else {
+      onClose();
     }
   };
 
