@@ -1,6 +1,6 @@
 describe('Fetching books', () => {
   it('shows loading indicator', () => {
-    cy.route2('http://localhost:4567/graphql', {
+    cy.route2(Cypress.env('API_HOST'), {
       delayMs: 3000,
       fixture: 'books.json'
     });
@@ -10,7 +10,7 @@ describe('Fetching books', () => {
   });
 
   it('hide loading indicator whe fetching books is finished', () => {
-    cy.route2('http://localhost:4567/graphql', {
+    cy.route2(Cypress.env('API_HOST'), {
       fixture: 'books.json'
     }).as('getBooks');
 
@@ -20,7 +20,7 @@ describe('Fetching books', () => {
   });
 
   it('shows empty state if there is no books', () => {
-    cy.route2('http://localhost:4567/graphql', {
+    cy.route2(Cypress.env('API_HOST'), {
       body: { data: { books: [] } }
     }).as('getBooks');
 
@@ -31,7 +31,7 @@ describe('Fetching books', () => {
   });
 
   it('shows books list', () => {
-    cy.route2('http://localhost:4567/graphql', {
+    cy.route2(Cypress.env('API_HOST'), {
       fixture: 'books.json'
     }).as('getBooks');
 
@@ -43,7 +43,7 @@ describe('Fetching books', () => {
   });
 
   it('shows error message', () => {
-    cy.route2('POST', 'http://localhost:4567/graphql', {
+    cy.route2('POST', Cypress.env('API_HOST'), {
       fixture: 'books.json',
       statusCode: 400
     }).as('getBooks');

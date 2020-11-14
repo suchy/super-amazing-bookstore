@@ -1,6 +1,6 @@
 describe('Edit book', () => {
   beforeEach(() => {
-    cy.route2({ url: 'http://localhost:4567/graphql' }, (req) => {
+    cy.route2({ url: Cypress.env('API_HOST') }, (req) => {
       const { operationName } = JSON.parse(req.body);
 
       if (operationName === 'GetBooks') {
@@ -24,7 +24,7 @@ describe('Edit book', () => {
   });
 
   it('should update book on list', () => {
-    cy.route2('http://localhost:4567/graphql', {
+    cy.route2(Cypress.env('API_HOST'), {
       fixture: 'edit-book-response.json',
       statusCode: 200
     }).as('editBook');

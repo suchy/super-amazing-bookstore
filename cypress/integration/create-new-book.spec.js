@@ -1,6 +1,6 @@
 describe('Create new book', () => {
   beforeEach(() => {
-    cy.route2({ url: 'http://localhost:4567/graphql' }, (req) => {
+    cy.route2({ url: Cypress.env('API_HOST') }, (req) => {
       const { operationName } = JSON.parse(req.body);
 
       if (operationName === 'GetBooks') {
@@ -39,7 +39,7 @@ describe('Create new book', () => {
   });
 
   it('should show loader when submiting form', () => {
-    cy.route2('http://localhost:4567/graphql', {
+    cy.route2(Cypress.env('API_HOST'), {
       fixture: 'create-book-response.json',
       delayMs: 5000,
       statusCode: 200
@@ -54,7 +54,7 @@ describe('Create new book', () => {
   });
 
   it('should show error message when if error occurs', () => {
-    cy.route2('http://localhost:4567/graphql', {
+    cy.route2(Cypress.env('API_HOST'), {
       fixture: 'create-book-response.json',
       statusCode: 500
     }).as('createBook');
@@ -69,7 +69,7 @@ describe('Create new book', () => {
   });
 
   it('should close modal after submit', () => {
-    cy.route2('http://localhost:4567/graphql', {
+    cy.route2(Cypress.env('API_HOST'), {
       fixture: 'create-book-response.json',
       statusCode: 200
     }).as('createBook');
@@ -83,7 +83,7 @@ describe('Create new book', () => {
   });
 
   it('should add new book to list', () => {
-    cy.route2('http://localhost:4567/graphql', {
+    cy.route2(Cypress.env('API_HOST'), {
       fixture: 'create-book-response.json',
       statusCode: 200
     }).as('createBook');

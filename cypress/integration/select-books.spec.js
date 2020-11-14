@@ -1,6 +1,6 @@
 describe('Select books', () => {
   beforeEach(() => {
-    cy.route2('http://localhost:4567/graphql', {
+    cy.route2(Cypress.env('API_HOST'), {
       fixture: 'books.json'
     }).as('getBooks');
 
