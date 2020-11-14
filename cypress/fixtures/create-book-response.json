@@ -1,0 +1,11 @@
+{
+  "data": {
+    "createBook": {
+      "author": "Philip K. Dick",
+      "bookId": 1111,
+      "price": 11,
+      "title": "Do Androids Dream of Electric Sheep?",
+      "__typename": "Book"
+    }
+  }
+}

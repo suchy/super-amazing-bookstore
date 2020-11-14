@@ -6,5 +6,7 @@ interface ErrorMessageProps {
 }
 
 export const ErrorMessage = ({ message }: ErrorMessageProps) => (
-  <Alert severity="error">{message}</Alert>
+  <Alert severity="error" data-testid="ErrorMessage">
+    {message}
+  </Alert>
 );

@@ -27,22 +27,24 @@ export const EditBookModal = ({ book, onClose }: EditBookModalProps) => {
   const handleSubmit = async (book: Book) => {
     book.price = Number(book.price);
 
-    const saveBookResponse = await saveBook({ variables: book });
+    try {
+      const saveBookResponse = await saveBook({ variables: book });
 
-    // small hack to get saveBookResponse.data.editBook or saveBookResponse.data.createBook
-    // as any of those properties is possible, depends on which query was used
-    const savedBook = Object.values(saveBookResponse.data)[0] as Book;
+      // small hack to get saveBookResponse.data.editBook or saveBookResponse.data.createBook
+      // as any of those properties is possible, depends on which query was used
+      const savedBook = Object.values(saveBookResponse.data)[0] as Book;
 
-    const { books } = client.readQuery({ query: GET_BOOKS_QUERY });
+      const { books } = client.readQuery({ query: GET_BOOKS_QUERY });
 
-    const newBooks = replaceOrAddBook(books, savedBook);
+      const newBooks = replaceOrAddBook(books, savedBook);
 
-    client.writeQuery({
-      query: GET_BOOKS_QUERY,
-      data: { books: newBooks }
-    });
+      client.writeQuery({
+        query: GET_BOOKS_QUERY,
+        data: { books: newBooks }
+      });
 
-    onClose();
+      onClose();
+    } catch {}
   };
 
   return (

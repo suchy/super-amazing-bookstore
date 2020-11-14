@@ -17,9 +17,9 @@ export const Summary = ({ selectedBooks }: SummaryProps) => {
   const selectedBooksValue = sumSelectedBooksPrice(selectedBooks);
 
   return (
-    <StyledSummary>
+    <StyledSummary data-testid="Summary">
       {selectedBooksArray.length > 0 && (
-        <div>
+        <div data-testid="SummaryContent">
           {selectedBooksArray.length} books were selected for a total of $
           {selectedBooksValue}
         </div>

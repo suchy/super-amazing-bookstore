@@ -7,7 +7,7 @@ const LoaderContainer = styled.div`
 `;
 
 export const Loader = () => (
-  <LoaderContainer>
+  <LoaderContainer data-testid="Loader">
     <CircularProgress />
   </LoaderContainer>
 );

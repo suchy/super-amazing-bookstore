@@ -74,7 +74,7 @@ export const EditBookForm = ({
   const isSubmitDisabled = !book.author || !book.title || !book.price;
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} data-testid="EditBookForm">
       <Field>
         <TextField
           autoFocus
@@ -116,9 +116,16 @@ export const EditBookForm = ({
       </Field>
 
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={onClose} data-testid="CancelButton">
+          Cancel
+        </Button>
 
-        <Button type="submit" color="primary" disabled={isSubmitDisabled}>
+        <Button
+          type="submit"
+          color="primary"
+          disabled={isSubmitDisabled}
+          data-testid="SubmitButton"
+        >
           {book.bookId ? 'Save book' : 'Create new book'}
         </Button>
       </DialogActions>

@@ -41,6 +41,7 @@ export const App = () => {
           variant="contained"
           color="primary"
           onClick={handleCreateBookClick}
+          data-testid="CreateButton"
         >
           Create new book
         </Button>

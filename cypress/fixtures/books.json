@@ -1,0 +1,20 @@
+{
+  "data": {
+    "books": [
+      {
+        "author": "Agatha Christie",
+        "bookId": 1,
+        "price": 10.76,
+        "title": "Murder on the Orient Express",
+        "__typename": "Book"
+      },
+      {
+        "author": "J.K. Rowling",
+        "bookId": 2,
+        "price": 9.56,
+        "title": "Harry Potter and the Sorcerer's stone",
+        "__typename": "Book"
+      }
+    ]
+  }
+}

@@ -32,7 +32,7 @@ export const BooksList = ({
   onBookSelect,
   onAllBooksSelect
 }: BooksListProps) => (
-  <TableContainer component={Paper}>
+  <TableContainer component={Paper} data-testid="BooksList">
     <Table>
       <TableHead>
         <TableRow>
@@ -42,6 +42,7 @@ export const BooksList = ({
               indeterminate={isAnySelected && !isAllSelected}
               color="primary"
               onChange={onAllBooksSelect}
+              data-testid="TopCheckbox"
             />
           </TableCell>
           <TableCell>Id</TableCell>
@@ -58,11 +59,13 @@ export const BooksList = ({
             hover
             key={`book-${book.bookId}`}
             onClick={onBookSelect(book.bookId)}
+            data-testid="BooksListItem"
           >
             <TableCell>
               <Checkbox
                 checked={!!selectedBooks[book.bookId]}
                 color="primary"
+                data-testid="BooksListItemCheckbox"
               />
             </TableCell>
             <TableCell>{book.bookId}</TableCell>
@@ -70,7 +73,10 @@ export const BooksList = ({
             <TableCell>{book.author}</TableCell>
             <TableCell align="right">{book.price}</TableCell>
             <TableCell align="right">
-              <IconButton onClick={onBookEditClick(book)}>
+              <IconButton
+                onClick={onBookEditClick(book)}
+                data-testid="EditButton"
+              >
                 <CreateIcon />
               </IconButton>
             </TableCell>

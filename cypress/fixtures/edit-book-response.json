@@ -1,0 +1,11 @@
+{
+  "data": {
+    "editBook": {
+      "author": "Agatha Christie",
+      "bookId": 1,
+      "price": 12,
+      "title": "The Mysterious Affair at Styles",
+      "__typename": "Book"
+    }
+  }
+}
